@@ -24,6 +24,18 @@ class HBNBCommand(cmd.Cmd):
         """Ignores empty spaces"""
         pass
 
+    def values_(self, value):
+        """Cast the values"""
+        if value[0] == '\"':
+            value = value.replace("\"", "")
+            value = value.replace("_", " ")
+            return(value)
+        else:
+            if "." in value:
+                return float(value)
+            else:
+                return int(value)
+   
     def do_quit(self, line):
         """Quit command to exit the program"""
         return True
@@ -43,13 +55,17 @@ class HBNBCommand(cmd.Cmd):
                 raise SyntaxError()
             my_list = line.split(" ")
             obj = eval("{}()".format(my_list[0]))
+            for i in range(1, len(my_list)):
+                aux = my_list[i].split("=")
+                value = self.values_(aux[1])
+                setattr(obj, aux[0], value)
             obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
             print("** class name missing **")
         except NameError:
             print("** class doesn't exist **")
-
+        
     def do_show(self, line):
         """Prints the string representation of an instance
         Exceptions:
