@@ -18,10 +18,6 @@ class User(BaseModel, base):
         email = Column(String(128), unique=True, nullable=False)
         password = Column(String(128), nullable=False)
         first_name = Column(String(128), nullable=True)
-        last_name = Column(String(128)), nullable=True)
-
-    elif getenv('HBNB_TYPE_STORAGE') == FileStorage:
-        email = ""
-        password = ""
-        first_name = ""
-        lastname = ""
+        last_name = Column(String(128), nullable=True)
+        
+    
