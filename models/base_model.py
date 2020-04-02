@@ -1,20 +1,28 @@
 #!/usr/bin/python3
 """This is the base model class for AirBnB"""
-import uuid
-import models
-from datetime import datetime
-from slqalchemy import Column, Integer, String, DateTime
-from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
+from datetime import datetime
+import models
+from os import getenv
+import sqlalchemy
+from sqlalchemy import Column, String, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+import uuid
+
+
+if models.storage_t == 'db':
+    Base = declarative_base()
+else:
+    Base = object
+
 
 class BaseModel:
     """This class will defines all common attributes/methods
     for other classes
     """
     id = Column(String(60), nullable=False, primary_key=True)
-    created_at = Column(DataTime, nullable=False, default=datatime.utcnow())
-    updated_at = Column(DataTime, nullable=False, default=datatime.utcnow())
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """Instantiation of base model class
@@ -38,11 +46,10 @@ class BaseModel:
                     self.updated_at = datatime.now()
                 if 'id' != kwargs:
                     self.id = str(uuid.uuid4())
-                    
+
         else:
             self.id = str(uuid.uuid4())
             self.created_at = self.updated_at = datetime.now()
-
 
     def __str__(self):
         """returns a string
@@ -74,5 +81,5 @@ class BaseModel:
         my_dict["created_at"] = self.created_at.isoformat()
         my_dict["updated_at"] = self.updated_at.isoformat()
         if '_sa_instance_state' in my_dict:
-            del new_dict("_sa_instance_state")
+            del new_dict["_sa_instance_state"]
         return my_dict
