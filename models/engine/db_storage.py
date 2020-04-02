@@ -11,13 +11,11 @@ from models.review import Review
 from models.state import State
 from models.user import User
 from os import getenv
+import os
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-classes = {"Amenity": Amenity, "City": City,
-           "Place": Place, "Review": Review,
-           "State": State, "User": User}
 
 
 class DBStorage:
@@ -27,28 +25,35 @@ class DBStorage:
 
     def __init__(self):
         """Instantiate a DBStorage object"""
-        HBNB_MYSQL_USER = getenv('HBNB_MYSQL_USER')
-        HBNB_MYSQL_PWD = getenv('HBNB_MYSQL_PWD')
-        HBNB_MYSQL_HOST = getenv('HBNB_MYSQL_HOST')
-        HBNB_MYSQL_DB = getenv('HBNB_MYSQL_DB')
+        HBNB_MYSQL_USER = os.environ.get('HBNB_MYSQL_USER')
+        HBNB_MYSQL_PWD = os.environ.get('HBNB_MYSQL_PWD')
+        HBNB_MYSQL_HOST = os.environ.get('HBNB_MYSQL_HOST')
+        HBNB_MYSQL_DB = os.environ.get('HBNB_MYSQL_DB')
         HBNB_ENV = getenv('HBNB_ENV')
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(HBNB_MYSQL_USER,
                                              HBNB_MYSQL_PWD,
                                              HBNB_MYSQL_HOST,
                                              HBNB_MYSQL_DB))
-        if HBNB_ENV == "test":
+        if (os.environ.get('HBNB_MYSQL_USER') == "test"):
             Base.metadata.drop.all(self.__engine)
 
+
     def all(self, cls=None):
-        new_dict = {}
-        for clss in classes:
-            if cls is None or cls is classes[clss] or cls is clss:
-                objs = self.__session.query(claseses[clss]).all()
-                for obj in objes:
-                    key = obj.__class__.name__ + '.' + obj.id
-                    new_dict[key] = obj
-        return(new_dict)
+        """ Function all """
+        lists = {}
+        classes = {'Place': Place, 'City': City, 'Amenity': Amenity,
+                       'Review': Review, 'State': State, 'User': User}
+        if cls:
+            for row in self.__session.query(classes[cls]):
+                key = "{}.{}".format(row.__class__.__name__, row.id)
+                lists[key] = row
+        else:
+            for rows in classes:
+                for row in self.__session.query(classes[rows]):
+                    key = "{}.{}".format(row.__class__.__name__, row.id)
+                    lists[key] = row
+        return lists
 
     def new(self, obj):
         """add the object to the current database session"""
@@ -62,6 +67,7 @@ class DBStorage:
         """delete from the current database session"""
         if obj is not None:
             self.__session.delete(obj)
+            self.save()
 
     def reload(self):
         """reloads data from the database"""
