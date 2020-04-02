@@ -5,7 +5,7 @@ from datetime import datetime
 import models
 from os import getenv
 import sqlalchemy
-from sqlalchemy import Column, String, DateTime
+from sqlalchemy import Column, String, DateTime, Integer
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
 
@@ -42,7 +42,7 @@ class BaseModel:
                     self.created_at = datetime.now()
                 if 'updated_at'not in  kwargs:
                     self.updated_at = datetime.now()
-                if 'id' != kwargs:
+                if 'id' not in kwargs:
                     self.id = str(uuid.uuid4())
 
         else:
@@ -79,11 +79,11 @@ class BaseModel:
         my_dict["created_at"] = self.created_at.isoformat()
         my_dict["updated_at"] = self.updated_at.isoformat()
         if '_sa_instance_state' in my_dict:
-            del new_dict["_sa_instance_state"]
+            my_dict.pop("_sa_instance_state")
         return my_dict
 
     def delete(self):
         """Deletes the current instance from
         the model storage
         """
-        models.storage.delete(self)
+        models.FileStorage.delete(self)

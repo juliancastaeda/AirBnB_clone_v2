@@ -6,7 +6,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
-from os import getenv
+from os 
 
 
 class City(BaseModel, Base):
@@ -15,18 +15,13 @@ class City(BaseModel, Base):
         state_id: The state id
         name: input name
     """
-
-    if models.storage_t == 'db':
-        __tablename__ = "cities"
-        state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
+    __tablename__ = "cities"
+    if os.getenv("HBNB_TYPE_STORAGE") == "db":
         name = Column(String(128), nullable=False)
+        state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
         places = relationship("Place", backref="cities",
                               cascade="all, delete-orphan")
 
     else:
         state_id = ''
         name = ''
-
-    def __init__(self, *args, **kwargs):
-        """initializes city"""
-        super().__init__(*args, **kwargs)
