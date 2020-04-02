@@ -41,9 +41,9 @@ class BaseModel:
                 if key != "__class__":
                     setattr(self, key, value)
                 if 'created_at' != kwargs:
-                    self.created_at = datatime.now()
+                    self.created_at = datetime.now()
                 if 'updated_at' != kwargs:
-                    self.updated_at = datatime.now()
+                    self.updated_at = datetime.now()
                 if 'id' != kwargs:
                     self.id = str(uuid.uuid4())
 
