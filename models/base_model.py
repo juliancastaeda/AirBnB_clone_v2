@@ -10,10 +10,8 @@ from sqlalchemy.ext.declarative import declarative_base
 import uuid
 
 
-if models.storage_t == 'db':
-    Base = declarative_base()
-else:
-    Base = object
+
+Base = declarative_base()
 
 
 class BaseModel:
@@ -40,9 +38,9 @@ class BaseModel:
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 if key != "__class__":
                     setattr(self, key, value)
-                if 'created_at' != kwargs:
+                if 'created_at' not in kwargs:
                     self.created_at = datetime.now()
-                if 'updated_at' != kwargs:
+                if 'updated_at'not in  kwargs:
                     self.updated_at = datetime.now()
                 if 'id' != kwargs:
                     self.id = str(uuid.uuid4())
@@ -83,3 +81,9 @@ class BaseModel:
         if '_sa_instance_state' in my_dict:
             del new_dict["_sa_instance_state"]
         return my_dict
+
+    def delete(self):
+        """Deletes the current instance from
+        the model storage
+        """
+        models.storage.delete(self)
