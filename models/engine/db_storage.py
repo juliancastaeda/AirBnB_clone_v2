@@ -38,7 +38,7 @@ class DBStorage:
                                              HBNB_MYSQL_HOST,
                                              HBNB_MYSQL_DB))
         if HBNB_ENV == "test":
-            Base.metadata.drop.all(self, engine)
+            Base.metadata.drop.all(self.__engine)
 
     def all(self, cls=None):
         new_dict = {}
