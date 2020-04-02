@@ -35,7 +35,7 @@ class HBNBCommand(cmd.Cmd):
                 return float(value)
             else:
                 return int(value)
-   
+
     def do_quit(self, line):
         """Quit command to exit the program"""
         return True
@@ -65,7 +65,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
         except NameError:
             print("** class doesn't exist **")
-        
+
     def do_show(self, line):
         """Prints the string representation of an instance
         Exceptions:
