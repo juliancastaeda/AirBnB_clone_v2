@@ -40,11 +40,8 @@ class DBStorage:
     def all(self, cls=None):
         """ Function all """
         lists = {}
-        classes = {'State': State, 'City': City, 'User': User, 'Place': Place,
-                   'Review': Review}
-        """
         classes = {'Place': Place, 'City': City, 'Amenity': Amenity,
-        'Review': Review, 'State': State, 'User': User}"""
+        'Review': Review, 'State': State, 'User': User}
 
         if cls:
             for row in self.__session.query(classes[cls]):
