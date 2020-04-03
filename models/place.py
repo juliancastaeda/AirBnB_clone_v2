@@ -6,8 +6,8 @@ import os
 import sqlalchemy
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
-from models.amenity import Amenity
-
+from models.amenity import Amenity, place_amenity
+from models.review import Review
 
 class Place(BaseModel, Base):
     """ Class Place
