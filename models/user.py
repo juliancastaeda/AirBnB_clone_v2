@@ -18,8 +18,8 @@ class User(BaseModel, Base):
     __tablename__ = "users"
 
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        places = relationship("Place", backref="users",
-                              cascade="all, delete-orphan")
+        """places = relationship("Place", backref="users",
+        cascade="all, delete-orphan")"""
         email = Column(String(128), unique=True, nullable=False)
         password = Column(String(128), nullable=False)
         first_name = Column(String(128), nullable=True)

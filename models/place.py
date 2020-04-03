@@ -10,7 +10,20 @@ from sqlalchemy.orm import relationship
 
 
 class Place(BaseModel, Base):
-    """This is the class for Place                                                                                                             Attributes:                                                                                                                                   city_id: city id                                                                                                                          user_id: user id                                                                                                                          name: name input                                                                                                                          description: string of description                                                                                                        number_rooms: number of room in int                                                                                                       number_bathrooms: number of bathrooms in int                                                                                              max_guest: maximum guest in int                                                                                                           price_by_night:: pice for a staying in int                                                                                                latitude: latitude in flaot                                                                                                               longitude: longitude in float                                                                                                             amenity_ids: list of Amenity ids                                                                                                      """
+    __tablename__ = "places"
+    city_id = ''
+    user_id = ''
+    name = ''
+    description = ''
+    number_rooms = 0
+    number_bathrooms = 0
+    max_guest = 0
+    price_by_night = 0
+    latitude = 0.0
+    longitude = 0.0
+    amenity_ids = []
+
+    """
     __tablename__ = "places"
     place_amenity = Table('place_amenity', Base.metadata,
                           Column('place_id', String(60),
@@ -38,3 +51,27 @@ class Place(BaseModel, Base):
         amenities = relationship("Amenity",  secondary=place_amenity,
                                  back_populates="place_amenities",
                                  viewonly=False)
+    else:
+        @property
+        def reviews(self):
+            review = models.storage.all(Review)
+            relation = []
+            for key in review.values():
+                if key.place.id == self.id:
+                    relation.append(key)
+            return relation
+
+        @property
+        def amenities(self):
+            amenity = models.storage.all()
+            relation = []
+            for key in amenity:
+                if key.place.id == self.id and\
+                        obj.__class.__.__name__ == 'Amenity':
+                    relation.append(key)
+            return relation
+
+        @amenities.setter
+        def amenities(self, value):
+            if value.__class__.__name__ == 'Amenity':
+                    self.amenity_ids.append(value.amenities.id)"""

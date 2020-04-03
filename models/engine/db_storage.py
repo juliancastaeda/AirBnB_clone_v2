@@ -17,7 +17,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 
-
 class DBStorage:
     """interaacts with the MySQL database"""
     __engine = None
@@ -36,14 +35,16 @@ class DBStorage:
                                              HBNB_MYSQL_HOST,
                                              HBNB_MYSQL_DB))
         if (os.environ.get('HBNB_MYSQL_USER') == "test"):
-            Base.metadata.drop.all(self.__engine)
-
+            Base.metadata.drop.all(bind=self.__engine)
 
     def all(self, cls=None):
         """ Function all """
         lists = {}
+        classes = {'State': State, 'City': City}
+        """
         classes = {'Place': Place, 'City': City, 'Amenity': Amenity,
-                       'Review': Review, 'State': State, 'User': User}
+        'Review': Review, 'State': State, 'User': User}"""
+
         if cls:
             for row in self.__session.query(classes[cls]):
                 key = "{}.{}".format(row.__class__.__name__, row.id)
