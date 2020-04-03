@@ -10,7 +10,6 @@ from sqlalchemy.ext.declarative import declarative_base
 import uuid
 
 
-
 Base = declarative_base()
 
 
@@ -40,7 +39,7 @@ class BaseModel:
                     setattr(self, key, value)
                 if 'created_at' not in kwargs:
                     self.created_at = datetime.now()
-                if 'updated_at'not in  kwargs:
+                if 'updated_at'not in kwargs:
                     self.updated_at = datetime.now()
                 if 'id' not in kwargs:
                     self.id = str(uuid.uuid4())
