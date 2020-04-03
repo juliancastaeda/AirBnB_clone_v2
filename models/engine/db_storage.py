@@ -40,7 +40,8 @@ class DBStorage:
     def all(self, cls=None):
         """ Function all """
         lists = {}
-        classes = {'State': State, 'City': City, 'User': User, 'Place': Place}
+        classes = {'State': State, 'City': City, 'User': User, 'Place': Place,
+                   'Review': Review}
         """
         classes = {'Place': Place, 'City': City, 'Amenity': Amenity,
         'Review': Review, 'State': State, 'User': User}"""
@@ -59,7 +60,6 @@ class DBStorage:
     def new(self, obj):
         """add the object to the current database session"""
         self.__session.add(obj)
-        self.save()
 
     def save(self):
         """commit all changes of the current database session"""
@@ -69,7 +69,6 @@ class DBStorage:
         """delete from the current database session"""
         if obj is not None:
             self.__session.delete(obj)
-            self.save()
 
     def reload(self):
         """reloads data from the database"""
@@ -78,7 +77,3 @@ class DBStorage:
                                     expire_on_commit=False)
         Session = scoped_session(sess_factory)
         self.__session = Session
-
-    def close(self):
-        """call remove() method on the private session attribute"""
-        self.__session.remove()

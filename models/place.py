@@ -14,6 +14,9 @@ class Place(BaseModel, Base):
     """
     __tablename__ = "places"
     if os.getenv("HBNB_TYPE_STORAGE") == "db":
+        reviews = relationship("Review", backref="place",
+                               cascade="all, delete-orphan")
+
         """
         place_amenity = Table('place_amenity', Base.metadata,
                               Column('place_id', String(60),
@@ -54,7 +57,6 @@ class Place(BaseModel, Base):
         longitude = 0.0
         amenity_ids = []
 
-        """
         @property
         def reviews(self):
             review = models.storage.all(Review)
@@ -63,7 +65,7 @@ class Place(BaseModel, Base):
                 if key.place.id == self.id:
                     relation.append(key)
             return relation
-
+        """
         @property
         def amenities(self):
             amenity = models.storage.all()
