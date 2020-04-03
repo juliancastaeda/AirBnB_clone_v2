@@ -25,7 +25,7 @@ class User(BaseModel, Base):
         first_name = Column(String(128), nullable=True)
         last_name = Column(String(128), nullable=True)
 
-    elif os.getenv('HBNB_TYPE_STORAGE') == 'File':
+    else:
         email = ''
         password = ''
         first_name = ''

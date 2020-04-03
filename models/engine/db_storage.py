@@ -40,7 +40,7 @@ class DBStorage:
     def all(self, cls=None):
         """ Function all """
         lists = {}
-        classes = {'State': State, 'City': City}
+        classes = {'State': State, 'City': City, 'User': User}
         """
         classes = {'Place': Place, 'City': City, 'Amenity': Amenity,
         'Review': Review, 'State': State, 'User': User}"""
