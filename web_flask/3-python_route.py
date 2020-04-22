@@ -19,6 +19,7 @@ def index_hbnb():
 def index_hbnb_C(text):
     return "C %s" % text.replace('_', ' ')
 
+
 @app.route('/python/', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def index_hbnb_python(text='is cool'):
