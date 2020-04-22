@@ -6,13 +6,13 @@ app = Flask(__name__)
 
 
 @app.route('/', strict_slashes=False)
-def hbnb_route0():
+def index():
     return 'Hello HBNB!'
 
 
 @app.route('/hbnb', strict_slashes=False)
-def hbnb_route1():
+def index_hbnb():
     return 'HBNB!'
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)
