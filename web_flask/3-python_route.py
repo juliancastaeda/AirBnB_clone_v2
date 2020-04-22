@@ -23,7 +23,7 @@ def index_hbnb_C(text):
 @app.route('/python/', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
 def index_hbnb_python(text='is cool'):
-    return "python %s" % text.replace('_', ' ')
+    return "Python %s" % text.replace('_', ' ')
 
 if __name__ == "__main__":
     app.run(debug=True)
